@@ -1,32 +1,23 @@
 
-import { useSelector, useDispatch } from 'react-redux';
-import React, { useState, useEffect } from 'react';
+import { Redirect, Switch, HashRouter as Router, Route } from 'react-router-dom'
 import './App.css';
-import { getTestText } from "./Redux/selectors";
-import { setTest } from './Redux/Actions/actions';
-import Component1 from './Components/Component1';
+import View1 from './Components/View1';
+import View2 from './Components/View2';
+
 
 
 function App() {
-
-  const dispatch = useDispatch();
-  const testText = useSelector(getTestText)
-
-  const [test, setTestAux] = useState(testText);
-
-  useEffect(() => {
-    setTestAux(testText);
-  }, [testText])
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>{test}</h1>
-        <input value={test} onChange={(e) => { dispatch(setTest(e.target.value)) }}></input>
-        <Component1 />
-      </header>
-    </div>
-  );
+    <Router>
+      <Switch>
+        <Route exact path={`/`} component={View1} />
+        <Route path={`/view2`} component={View2} />
+        <Route path={`/*`}>
+          <Redirect to={`/`} />
+        </Route>
+      </Switch>
+    </Router>
+  )
 }
 
 export default App;
